@@ -16,7 +16,7 @@ public class SimpleController {
 
     @RequestMapping(value ="/hello", method = RequestMethod.GET)
     public String hello() {
-        return "test.jsp";
+        return "jstest.jsp";
     }
 
     @RequestMapping(value ="/", method = RequestMethod.GET)
