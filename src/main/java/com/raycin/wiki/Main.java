@@ -1,16 +1,9 @@
 package com.raycin.wiki;
 
-import info.bliki.api.Connector;
-import info.bliki.api.Page;
-import info.bliki.api.User;
-import info.bliki.wiki.model.WikiModel;
 
 import javax.security.auth.login.CredentialNotFoundException;
 import javax.security.auth.login.FailedLoginException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by surfront on 2015/12/30.
