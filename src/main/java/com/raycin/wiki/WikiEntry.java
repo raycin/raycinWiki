@@ -2,6 +2,7 @@ package com.raycin.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by surfront on 2015/12/31.
@@ -9,9 +10,11 @@ import java.util.List;
 public class WikiEntry {
 
     private String id;
-    private String topic;
+    private List<String> topic = new ArrayList<>();
     private String direction = "right";
     private List<WikiEntry> children = new ArrayList<>();
+    private WikiEntry parent;
+    private int level;
 
     public WikiEntry(String id) {
         this.id = id;
@@ -25,12 +28,16 @@ public class WikiEntry {
         this.id = id;
     }
 
-    public String getTopic() {
+    public List<String> getTopic() {
         return topic;
     }
 
-    public void setTopic(String topic) {
+    public void setTopic(List<String> topic) {
         this.topic = topic;
+    }
+
+    public void addTopic(String topic) {
+        this.topic.add(topic);
     }
 
     public List<WikiEntry> getChildren() {
@@ -39,5 +46,37 @@ public class WikiEntry {
 
     public void setChildren(List<WikiEntry> children) {
         this.children = children;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void addChild(WikiEntry child) {
+        children.add(child);
+    }
+
+    public WikiEntry getParent() {
+        return parent;
+    }
+
+    public void setParent(WikiEntry parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String toString() {
+        return "WikiEntry{" +
+                "id='" + id + '\'' +
+                ", topic='" + topic.stream().collect(Collectors.joining("\n")).toString() + '\'' +
+                ", direction='" + direction + '\'' +
+                ", children=" + children.toString() +
+                ", parent=" + parent +
+                ", level=" + level +
+                "}\n";
     }
 }
