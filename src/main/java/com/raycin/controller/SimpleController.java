@@ -21,7 +21,7 @@ public class SimpleController {
 
     @RequestMapping(value ="/", method = RequestMethod.GET)
     public String index() {
-        return "index.jsp";
+        return "index";
     }
 
     public static void main(String[] args) {
