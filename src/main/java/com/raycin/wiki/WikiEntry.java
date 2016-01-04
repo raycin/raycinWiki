@@ -1,7 +1,9 @@
 package com.raycin.wiki;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,5 +83,15 @@ public class WikiEntry {
 //                ", parent=" + parent +
                 ", level=" + level +
                 "}\n";
+    }
+
+    public String toJson() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

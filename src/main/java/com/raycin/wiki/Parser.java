@@ -115,9 +115,7 @@ public class Parser {
         Parser parser = new Parser("test", content);
         WikiEntry wikiEntry = parser.getContent();
         System.out.println(wikiEntry);
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(wikiEntry);
-        System.out.println(json);
+        System.out.println(wikiEntry.toJson());
     }
 
 }
