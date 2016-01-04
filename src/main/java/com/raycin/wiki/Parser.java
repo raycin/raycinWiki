@@ -3,6 +3,7 @@ package com.raycin.wiki;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class Parser {
             line = line.trim();
             String title = getTitle(line);
             if (StringUtils.isBlank(title)) {
-                line = StringUtils.replaceEach(line, new String[]{"[[", "]]"}, new String[]{"", ""});
+                line = StringUtils.replaceEach(line, new String[]{"[", "]"}, new String[]{"", ""});
                 last.addTopic(line);
                 continue;
             }
@@ -73,28 +74,26 @@ public class Parser {
                 }
             }
             if (StringUtils.isNoneBlank(content)) {
-                content = StringUtils.replaceEach(content, new String[]{"[[", "]]"}, new String[]{"", ""});
+                content = StringUtils.replaceEach(content, new String[]{"[", "]"}, new String[]{"", ""});
                 WikiEntry entry = new WikiEntry(content);
                 entry.setLevel(level);
-                WikiEntry parent = getParent(last, level);
-                if (parent == null)
-                    root.addChild(entry);
-                else
-                    parent.addChild(entry);
+                WikiEntry parent = getParent(last, level, root);
+                parent.addChild(entry);
+                entry.setParent(parent);
                 last = entry;
             }
         }
         return root;
     }
 
-    private WikiEntry getParent(WikiEntry last, int currentLevel) {
+    private WikiEntry getParent(WikiEntry last, int currentLevel, WikiEntry root) {
         if (last == null || last.getLevel() == 0)
-            return last;
+            return root;
         int i = currentLevel - 1;
         if (last.getLevel() <= i)
             return last;
         else
-            return getParent(last.getParent(), currentLevel);
+            return getParent(last.getParent(), currentLevel, root);
     }
 
     private String getTitle(String line) {
@@ -116,6 +115,9 @@ public class Parser {
         Parser parser = new Parser("test", content);
         WikiEntry wikiEntry = parser.getContent();
         System.out.println(wikiEntry);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(wikiEntry);
+        System.out.println(json);
     }
 
 }

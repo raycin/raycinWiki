@@ -1,5 +1,7 @@
 package com.raycin.wiki;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,6 +62,7 @@ public class WikiEntry {
         children.add(child);
     }
 
+    @JsonIgnore
     public WikiEntry getParent() {
         return parent;
     }
@@ -75,7 +78,7 @@ public class WikiEntry {
                 ", topic='" + topic.stream().collect(Collectors.joining("\n")).toString() + '\'' +
                 ", direction='" + direction + '\'' +
                 ", children=" + children.toString() +
-                ", parent=" + parent +
+//                ", parent=" + parent +
                 ", level=" + level +
                 "}\n";
     }
