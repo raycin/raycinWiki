@@ -2,16 +2,16 @@
 <html>
 <head>
     <title>wiki登陆</title>
-    <link type="text/css" rel="stylesheet" href="style/bootstrap.min.css"/>
-    <script type="text/javascript" src="script/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="script/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../style/bootstrap.min.css"/>
+    <script type="text/javascript" src="../script/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../script/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container" style="margin-top:100px">
-    <form action="/login" method="post" class="well" style="width:220px;margin:0px auto;">
+    <form action="/doLogin" method="post" class="well" style="width:220px;margin:0px auto;">
         <h3>wiki登陆</h3>
         <%
-            String code = request.getParameter("code");
+            String code = (String)request.getAttribute("code");
             if (code != null && "10001".equals(code)) {
         %>
         <div style="color:red;font-size:18px">用户名或密码错误</div>

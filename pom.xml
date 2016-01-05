@@ -6,6 +6,7 @@
     <groupId>com.raycin</groupId>
     <artifactId>wiki</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -14,7 +15,7 @@
     </parent>
 
     <properties>
-        <start-class>com.raycin.config.Application</start-class>
+        <start-class>com.raycin.Application</start-class>
         <main.basedir>${basedir}/../..</main.basedir>
         <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
     </properties>
@@ -57,11 +58,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
@@ -79,10 +75,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--<configuration>-->
-                    <!--<source>1.8</source>-->
-                    <!--<target>1.8</target>-->
-                <!--</configuration>-->
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
