@@ -1,5 +1,6 @@
 package com.raycin.wiki;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 public class WikiEntry {
 
     private String id;
-    private List<String> topic = new ArrayList<>();
+    private String topic;
     private String direction = "right";
     private List<WikiEntry> children = new ArrayList<>();
     private WikiEntry parent;
@@ -22,8 +23,10 @@ public class WikiEntry {
 
     public WikiEntry(String id) {
         this.id = id;
+        this.topic = id;
     }
 
+    @JsonIgnore
     public String getId() {
         return id;
     }
@@ -32,16 +35,13 @@ public class WikiEntry {
         this.id = id;
     }
 
-    public List<String> getTopic() {
+    @JsonIgnore
+    public String getTopic() {
         return topic;
     }
 
-    public void setTopic(List<String> topic) {
-        this.topic = topic;
-    }
-
-    public void addTopic(String topic) {
-        this.topic.add(topic);
+    public String getName() {
+        return StringUtils.substringBefore(id, "：");
     }
 
     public List<WikiEntry> getChildren() {
@@ -52,6 +52,7 @@ public class WikiEntry {
         this.children = children;
     }
 
+    @JsonIgnore
     public int getLevel() {
         return level;
     }
@@ -77,7 +78,7 @@ public class WikiEntry {
     public String toString() {
         return "WikiEntry{" +
                 "id='" + id + '\'' +
-                ", topic='" + topic.stream().collect(Collectors.joining("\n")).toString() + '\'' +
+                ", topic='" + topic + '\'' +
                 ", direction='" + direction + '\'' +
                 ", children=" + children.toString() +
 //                ", parent=" + parent +

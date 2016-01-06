@@ -46,7 +46,6 @@ public class Parser {
             String title = getTitle(line);
             if (StringUtils.isBlank(title)) {
                 line = StringUtils.replaceEach(line, new String[]{"[", "]"}, new String[]{"", ""});
-                last.addTopic(line);
                 continue;
             }
             String content = "";
@@ -76,6 +75,7 @@ public class Parser {
             if (StringUtils.isNoneBlank(content)) {
                 content = StringUtils.replaceEach(content, new String[]{"[", "]"}, new String[]{"", ""});
                 WikiEntry entry = new WikiEntry(content);
+//                entry.setTopic(content);
                 entry.setLevel(level);
                 WikiEntry parent = getParent(last, level, root);
                 parent.addChild(entry);
