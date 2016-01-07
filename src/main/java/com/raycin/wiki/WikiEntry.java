@@ -26,20 +26,21 @@ public class WikiEntry {
         this.topic = id;
     }
 
-    @JsonIgnore
+    //    @JsonIgnore
     public String getId() {
-        return id;
+        return StringUtils.substringBefore(id, "：");
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    @JsonIgnore
+    //    @JsonIgnore
     public String getTopic() {
-        return topic;
+        return StringUtils.substringBefore(topic, "：");
     }
 
+    @JsonIgnore
     public String getName() {
         return StringUtils.substringBefore(id, "：");
     }
@@ -52,7 +53,7 @@ public class WikiEntry {
         this.children = children;
     }
 
-    @JsonIgnore
+    //    @JsonIgnore
     public int getLevel() {
         return level;
     }

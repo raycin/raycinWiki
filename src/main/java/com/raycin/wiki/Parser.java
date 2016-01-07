@@ -3,20 +3,22 @@ package com.raycin.wiki;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by surfront on 2015/12/31.
  */
 public class Parser {
+    private List<String> treeLevel = new ArrayList<>();
     private final List<String> lines;
     private final String project;
     private WikiEntry data;
+    private Map<String, WikiEntry> entryMap = new HashMap<>();
 
     public Parser(String project, String content) {
         this.project = project;
@@ -50,12 +52,14 @@ public class Parser {
             }
             String content = "";
             int level = 1;
+            boolean isTreeTitle = false;
             if ("=".equals(title)) {
                 for (int i = 1; i < 8; i++) {
                     content = StringUtils.substringBetween(line, StringUtils.repeat(title, i));
                     if (StringUtils.isNoneBlank(content)) {
                         level = i;
                         lastHeadLevel = i;
+                        isTreeTitle = true;
                         break;
                     }
                 }
@@ -65,6 +69,8 @@ public class Parser {
                     boolean startsWith = StringUtils.startsWith(line, repeat);
                     if (!startsWith)
                         continue;
+                    if (i > 1)
+                        break;
                     content = StringUtils.remove(line, repeat);
                     if (StringUtils.isNoneBlank(content)) {
                         level = i + lastHeadLevel;
@@ -75,12 +81,14 @@ public class Parser {
             if (StringUtils.isNoneBlank(content)) {
                 content = StringUtils.replaceEach(content, new String[]{"[", "]"}, new String[]{"", ""});
                 WikiEntry entry = new WikiEntry(content);
-//                entry.setTopic(content);
                 entry.setLevel(level);
                 WikiEntry parent = getParent(last, level, root);
                 parent.addChild(entry);
                 entry.setParent(parent);
                 last = entry;
+                entryMap.put(entry.getId(), entry);
+                if(isTreeTitle)
+                    treeLevel.add(entry.getId());
             }
         }
         return root;
@@ -110,12 +118,52 @@ public class Parser {
         }
     }
 
+    public String getProcessJson(String project, String objects) {
+        String[] processArray = objects.split("===");
+
+        WikiEntry wikiEntry = new WikiEntry(project);
+        for (String process : processArray) {
+            WikiEntry parent = wikiEntry;
+            WikiEntry[] entries = getLeafEntries(process);
+            for (int i = 0; i < entries.length; i++) {
+                WikiEntry entry = entries[i];
+                if (entry == null)
+                    continue;
+                WikiEntry e = new WikiEntry(treeLevel.get(i) + ":" + entry.getId());
+                parent.addChild(e);
+                parent = e;
+            }
+
+        }
+        return wikiEntry.toJson();
+    }
+
+    private WikiEntry[] getLeafEntries(String process) {
+        String[] leafs = process.split("==");
+
+        WikiEntry[] entries = new WikiEntry[treeLevel.size()];
+        for (String leaf : leafs) {
+            WikiEntry leafEntry = entryMap.get(leaf);
+            if (leafEntry == null)
+                continue;
+            WikiEntry parent = leafEntry.getParent();
+            String parentName = parent == null ? "" : parent.getTopic();
+            Optional<Integer> index = treeLevel.parallelStream().filter(parentName::equals).findAny().map(treeLevel::indexOf);
+            int idx = index.orElse(-1);
+            if (idx != -1) {
+                entries[idx] = leafEntry;
+            }
+        }
+        return entries;
+    }
+
     public static void main(String[] args) throws IOException {
         String content = FileUtils.readFileToString(new File("d:\\test1.txt"), "utf-8");
         Parser parser = new Parser("test", content);
         WikiEntry wikiEntry = parser.getContent();
         System.out.println(wikiEntry);
         System.out.println(wikiEntry.toJson());
+        System.out.println(parser.getProcessJson("test","任务执行方在四天(连续80小时)之前的准备过程==采集各类知识内容的访问量或器材资源的消耗数量==学校作为活的知识库===挑战设计方团队"));
     }
 
 }
