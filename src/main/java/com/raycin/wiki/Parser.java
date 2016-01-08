@@ -1,14 +1,12 @@
 package com.raycin.wiki;
 
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by surfront on 2015/12/31.
@@ -158,7 +156,7 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException {
-        String content = FileUtils.readFileToString(new File("d:\\test1.txt"), "utf-8");
+        String content = new String(Files.readAllBytes(Paths.get("d:\\test1.txt")));
         Parser parser = new Parser("test", content);
         WikiEntry wikiEntry = parser.getContent();
         System.out.println(wikiEntry);
