@@ -1916,6 +1916,8 @@
 
         this.selected_node = null;
         this.editing_node = null;
+        this.selected_list = new Array();
+        this.save_list = new Array();
     };
 
     jm.view_provider.prototype={
@@ -1954,10 +1956,12 @@
         },
 
         add_event:function(obj,event_name,event_handle){
-            jm.util.dom.add_event(this.e_nodes,event_name,function(e){
-                var evt = e || event;
-                event_handle.call(obj,evt);
-            });
+            if(!obj.options.not_event) {
+                jm.util.dom.add_event(this.e_nodes,event_name,function(e){
+                    var evt = e || event;
+                    event_handle.call(obj,evt);
+                });
+            }
         },
 
         get_nodeid:function(element){
@@ -1975,6 +1979,8 @@
         reset:function(){
             logger.debug('view.reset');
             this.selected_node = null;
+            this.selected_list = new Array();
+            this.save_list = new Array();
             this.clear_lines();
             this.clear_nodes();
             this.reset_theme();
@@ -2101,15 +2107,101 @@
         },
 
         select_node:function(node){
-            if(!!this.selected_node){
-                this.selected_node._data.view.element.className =
-                this.selected_node._data.view.element.className.replace(/\s*selected\s*/i,'');
-            }
-            if(!!node){
-                this.selected_node = node;
-                node._data.view.element.className += ' selected';
+            //this.selected_list.push(node);
+            //alert(this.contain_node(node));
+
+            //if(!!this.selected_node){
+            //    this.selected_node._data.view.element.className =
+            //    this.selected_node._data.view.element.className.replace(/\s*selected\s*/i,'');
+            //}
+            //if(!!node){
+            //    this.selected_node = node;
+            //    node._data.view.element.className += ' selected';
+            //}
+            var index = this.contain_node(node);
+            if(index != -1) {
+                this.selected_list.splice(index , 1);
+                node._data.view.element.className =
+                node._data.view.element.className.replace(/\s*selected\s*/i,'');
+            } else {
+                if(this.check_level(node)) {
+                    alert("you can't select this node!");
+                } else {
+                    this.selected_node = node;
+                    node._data.view.element.className += ' selected';
+                    this.selected_list.push(node);
+                }
             }
         },
+
+        check_level:function(node) {
+            if(node != null && node.isroot) {
+                return true;
+            }
+            if(node.parent != null && node.parent.isroot) {
+                return true;
+            }
+
+            if(node.parent.parent != null && node.parent.parent.isroot) {
+                return true;
+            }
+
+            //if(node.parent.id == '背景') {
+            //    for(var i = 0; i < this.selected_list.length; i++) {
+            //        if(this.selected_list[i].parent.id == '背景') {
+            //            return true;
+            //        }
+            //    }
+            //}
+            var parentId = node.parent.id;
+            for(var i = 0; i < this.selected_list.length; i++) {
+                if(this.selected_list[i].parent.id == parentId) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        contain_node:function(node) {
+            var ntype = typeof node;
+            for(var i = 0; i < this.selected_list.length; i++) {
+                if(this.selected_list[i] == node) {
+                    if(typeof this.selected_list[i] == ntype) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        },
+
+        create_new_map:function() {
+            var oDiv = document.createElement("div");
+            oDiv.id = 'jsmind_selected'
+            document.body.appendChild(oDiv);
+
+            var opt = {
+                container:'jsmind_selected',
+                editable:true,
+                theme:'primary',
+                not_event:true,
+            };
+            var new_jm = new jsMind(opt);
+            var mind_demo = {
+                "meta":{
+                    "name":"line",
+                    "author":"while.for@me.com",
+                    "version":"0.2"
+                },
+                "format":"node_array",
+                "data":[
+                    {"id":this.jm.get_root().id , "isroot":true, "topic":this.jm.get_root().topic},
+                ]
+            };
+            new_jm.show(mind_demo);
+        },
+
+
 
         select_clear:function(){
             this.select_node(null);
