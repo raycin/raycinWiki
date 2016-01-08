@@ -1956,12 +1956,10 @@
         },
 
         add_event:function(obj,event_name,event_handle){
-            if(!obj.options.not_event) {
-                jm.util.dom.add_event(this.e_nodes,event_name,function(e){
-                    var evt = e || event;
-                    event_handle.call(obj,evt);
-                });
-            }
+            jm.util.dom.add_event(this.e_nodes,event_name,function(e){
+                var evt = e || event;
+                event_handle.call(obj,evt);
+            });
         },
 
         get_nodeid:function(element){
@@ -2107,17 +2105,9 @@
         },
 
         select_node:function(node){
-            //this.selected_list.push(node);
-            //alert(this.contain_node(node));
-
-            //if(!!this.selected_node){
-            //    this.selected_node._data.view.element.className =
-            //    this.selected_node._data.view.element.className.replace(/\s*selected\s*/i,'');
-            //}
-            //if(!!node){
-            //    this.selected_node = node;
-            //    node._data.view.element.className += ' selected';
-            //}
+            if(node == null) {
+                return;
+            }
             var index = this.contain_node(node);
             if(index != -1) {
                 this.selected_list.splice(index , 1);
@@ -2138,21 +2128,14 @@
             if(node != null && node.isroot) {
                 return true;
             }
-            if(node.parent != null && node.parent.isroot) {
+            if(node != null && node.parent != null && node.parent.isroot) {
                 return true;
             }
 
-            if(node.parent.parent != null && node.parent.parent.isroot) {
+            if(node != null && node.parent.parent != null && node.parent.parent.isroot) {
                 return true;
             }
 
-            //if(node.parent.id == '背景') {
-            //    for(var i = 0; i < this.selected_list.length; i++) {
-            //        if(this.selected_list[i].parent.id == '背景') {
-            //            return true;
-            //        }
-            //    }
-            //}
             var parentId = node.parent.id;
             for(var i = 0; i < this.selected_list.length; i++) {
                 if(this.selected_list[i].parent.id == parentId) {
@@ -2175,30 +2158,15 @@
             return -1;
         },
 
-        create_new_map:function() {
-            var oDiv = document.createElement("div");
-            oDiv.id = 'jsmind_selected'
-            document.body.appendChild(oDiv);
-
-            var opt = {
-                container:'jsmind_selected',
-                editable:true,
-                theme:'primary',
-                not_event:true,
-            };
-            var new_jm = new jsMind(opt);
-            var mind_demo = {
-                "meta":{
-                    "name":"line",
-                    "author":"while.for@me.com",
-                    "version":"0.2"
-                },
-                "format":"node_array",
-                "data":[
-                    {"id":this.jm.get_root().id , "isroot":true, "topic":this.jm.get_root().topic},
-                ]
-            };
-            new_jm.show(mind_demo);
+        button_test:function() {
+            this.save_list.push(this.selected_list);
+            for(var i = 0; i < this.selected_list.length; i++) {
+                this.selected_list[i]._data.view.element.className =
+                this.selected_list[i]._data.view.element.className.replace(/\s*selected\s*/i,'');
+            }
+            this.selected_list = new Array();
+            alert(this.save_list.length);
+            alert(this.jm.get_root().id);
         },
 
 
