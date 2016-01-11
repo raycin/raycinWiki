@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>wiki登陆</title>
@@ -9,17 +10,19 @@
 <body>
 <div class="container" style="margin-top:100px">
     <form action="/doLogin" method="post" class="well" style="width:220px;margin:0px auto;">
+        <input type="hidden" id="project" name="project" value="2016年跨学科系统集成设计挑战">
         <h3>wiki登陆</h3>
-        <%
-            String code = (String)request.getAttribute("code");
-            if (code != null && "10001".equals(code)) {
-        %>
-        <div style="color:red;font-size:18px">用户名或密码错误</div>
-        <%} else if (code != null && "10002".equals(code)) { %>
-        <div style="color:red;font-size:18px">请输入用户名或密码</div>
-        <%} else if (code != null && "10005".equals(code)) {%>
-        <div style="color:red;font-size:18px">请先登录</div>
-        <%} %>
+        <%--<%--%>
+            <%--String code = (String)request.getAttribute("code");--%>
+            <%--if (code != null && "10001".equals(code)) {--%>
+        <%--%>--%>
+        <%--<div style="color:red;font-size:18px">用户名或密码错误</div>--%>
+        <%--<%} else if (code != null && "10002".equals(code)) { %>--%>
+        <%--<div style="color:red;font-size:18px">请输入用户名或密码</div>--%>
+        <%--<%} else if (code != null && "10005".equals(code)) {%>--%>
+        <%--<div style="color:red;font-size:18px">请先登录</div>--%>
+        <%--<%} %>--%>
+        <c:if test="${err != null}"><div style="color:red;font-size:18px"><c:out value="${err}" /></div></c:if>
         <label>用户名:</label>
         <input type="text" name="username" style="height:30px" class="span3"/>
         <label>密码：</label>
