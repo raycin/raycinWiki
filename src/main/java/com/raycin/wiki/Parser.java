@@ -85,7 +85,7 @@ public class Parser {
                 entry.setParent(parent);
                 last = entry;
                 entryMap.put(entry.getId(), entry);
-                if(isTreeTitle)
+                if (isTreeTitle)
                     treeLevel.add(entry.getId());
             }
         }
@@ -117,6 +117,8 @@ public class Parser {
     }
 
     public String getProcessJson(String project, String objects) {
+        if (objects == null)
+            return "";
         String[] processArray = objects.split("===");
 
         WikiEntry wikiEntry = new WikiEntry(project);
@@ -161,7 +163,7 @@ public class Parser {
         WikiEntry wikiEntry = parser.getContent();
         System.out.println(wikiEntry);
         System.out.println(wikiEntry.toJson());
-        System.out.println(parser.getProcessJson("test","任务执行方在四天(连续80小时)之前的准备过程==采集各类知识内容的访问量或器材资源的消耗数量==学校作为活的知识库===挑战设计方团队"));
+        System.out.println(parser.getProcessJson("test", "任务执行方在四天(连续80小时)之前的准备过程==采集各类知识内容的访问量或器材资源的消耗数量==学校作为活的知识库===挑战设计方团队"));
     }
 
 }

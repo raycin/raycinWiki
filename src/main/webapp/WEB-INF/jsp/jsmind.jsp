@@ -9,6 +9,7 @@
 <body>
 <form action="/doShow" method="post" class="well" id="lineform">
 <input type="hidden" id="lines" name="lines">
+<input type="hidden" id="project" name="project">
 <div id="jsmind_container"></div>
 <script type="text/javascript">
     var mind = {

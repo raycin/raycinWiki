@@ -2210,7 +2210,7 @@
                 }
                 document.getElementById("lines").value = line;
             }
-
+            document.getElementById("project").value = this.jm.get_root().id;
             document.getElementById("lineform").submit();
         },
 
