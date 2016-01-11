@@ -7,6 +7,8 @@
     <link type="text/css" rel="stylesheet" href="../style/bootstrap.min.css"/>
 </head>
 <body>
+<form action="/doShow" method="post" class="well" id="lineform">
+<input type="hidden" id="lines" name="lines">
 <div id="jsmind_container"></div>
 <script type="text/javascript">
     var mind = {
@@ -35,7 +37,14 @@
     <%--<button type="button" class="btn btn-default">Middle</button>--%>
     <%--<button type="button" class="btn btn-default">Right</button>--%>
 <%--</div>--%>
-<button type="button" class="btn btn-primary btn-lg btn-block">保存并选取新线路</button>
-<button type="button" class="btn btn-primary btn-lg btn-block">提交线路</button>
+<div id="groups" class="btn-toolbar" role="toolbar" aria-label="..."></div>
+<nav>
+    <ul class="pager">
+        <li><a href="#" onclick="jm.view.button_test()">保存并选取新线路</a></li>
+        <li><a href="#" onclick="location.reload() ">清空所选</a></li>
+        <li><a href="#" onclick="jm.view.from_submit()">提交线路</a></li>
+    </ul>
+</nav>
+</form>
 </body>
 </html>

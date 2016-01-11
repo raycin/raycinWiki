@@ -2160,15 +2160,94 @@
 
         button_test:function() {
             this.save_list.push(this.selected_list);
+            var oDiv = this.create_button_group(this.save_list.length);
             for(var i = 0; i < this.selected_list.length; i++) {
                 this.selected_list[i]._data.view.element.className =
                 this.selected_list[i]._data.view.element.className.replace(/\s*selected\s*/i,'');
+                if(i == 0) {
+                    var line = document.createElement("button");
+                    line.className = "btn btn-default";
+                    line.innerText = '线路_'+this.save_list.length;
+                    oDiv.appendChild(line);
+                }
+                var button = document.createElement("button");
+                button.className = "btn btn-default";
+                button.innerText = this.selected_list[i].id;
+                oDiv.appendChild(button);
             }
             this.selected_list = new Array();
-            alert(this.save_list.length);
-            alert(this.jm.get_root().id);
+            //alert(this.save_list.length);
+            //alert(this.jm.get_root().id);
+
         },
 
+        from_submit:function() {
+            if(this.save_list.length != 0) {
+                var all_line = "";
+                for(var i = 0; i < this.save_list.length; i++) {
+                    if(i != 0) {
+                        all_line += "===";
+                    }
+                    var line = "";
+                    var select_list = this.save_list[i];
+                    for(var j = 0; j <  select_list.length; j++) {
+                        if(j != 0) {
+                            line += "==";
+                        }
+                        line += select_list[j].id;
+                    }
+                    all_line += line;
+                }
+                document.getElementById("lines").value = all_line;
+                alert(all_line);
+            } else if(this.selected_list.length != 0) {
+                var line = "";
+                for(var i = 0; i < this.selected_list.length; i++) {
+                    if(i != 0) {
+                        line += "==";
+                    }
+                    line += this.selected_list[i].id;
+                }
+                document.getElementById("lines").value = line;
+            }
+
+            document.getElementById("lineform").submit();
+        },
+
+        create_button_group:function(index) {
+            var oDiv = document.createElement("div");
+            oDiv.id = "line_"+index;
+            oDiv.className = "btn-group";
+            document.getElementById("groups").appendChild(oDiv);
+            return oDiv;
+        },
+
+
+        create_new_map:function() {
+            var oDiv = document.createElement("div");
+            oDiv.id = 'jsmind_selected'
+            document.body.appendChild(oDiv);
+
+            var opt = {
+                container:'jsmind_selected',
+                editable:true,
+                theme:'primary',
+                not_event:true,
+            };
+            var new_jm = new jsMind(opt);
+            var mind_demo = {
+                "meta":{
+                    "name":"line",
+                    "author":"while.for@me.com",
+                    "version":"0.2"
+                },
+                "format":"node_array",
+                "data":[
+                    {"id":this.jm.get_root().id , "isroot":true, "topic":this.jm.get_root().topic},
+                ]
+            };
+            new_jm.show(mind_demo);
+        },
 
 
         select_clear:function(){
