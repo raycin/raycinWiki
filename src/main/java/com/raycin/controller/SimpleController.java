@@ -26,8 +26,8 @@ public class SimpleController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login() {
-        return new ModelAndView("index");
+    public ModelAndView login(String project) {
+        return new ModelAndView("index").addObject("project",project);
     }
 
     @RequestMapping(value = "/doLogin", method = RequestMethod.POST)

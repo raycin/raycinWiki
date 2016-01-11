@@ -10,8 +10,10 @@
 <body>
 <div class="container" style="margin-top:100px">
     <form action="/doLogin" method="post" class="well" style="width:220px;margin:0px auto;">
-        <input type="hidden" id="project" name="project" value="2016年跨学科系统集成设计挑战">
-        <h3>wiki登陆</h3>
+        <label></label>
+        <input type="hidden" id="project" name="project" value="${project}">
+        <%--2016年跨学科系统集成设计挑战--%>
+        <h3>${project}</h3>
         <%--<%--%>
             <%--String code = (String)request.getAttribute("code");--%>
             <%--if (code != null && "10001".equals(code)) {--%>
@@ -23,9 +25,9 @@
         <%--<div style="color:red;font-size:18px">请先登录</div>--%>
         <%--<%} %>--%>
         <c:if test="${err != null}"><div style="color:red;font-size:18px"><c:out value="${err}" /></div></c:if>
-        <label>用户名:</label>
+        <label>wiki用户名:</label>
         <input type="text" name="username" style="height:30px" class="span3"/>
-        <label>密码：</label>
+        <label>wiki密码：</label>
         <input type="password" name="password" style="height:30px" class="span3">
         <button type="submit" class="btn btn-primary">登陆系统</button>
     </form>
