@@ -23,7 +23,8 @@
     var options = {
         container:'jsmind_container',
         editable:false,
-        theme:'orange'
+        theme:'orange',
+        not_event:true,
     };
     var jm = new jsMind(options);
     jm.show(mind);

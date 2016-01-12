@@ -2199,7 +2199,7 @@
                     all_line += line;
                 }
                 document.getElementById("lines").value = all_line;
-                alert(all_line);
+                //alert(all_line);
             } else if(this.selected_list.length != 0) {
                 var line = "";
                 for(var i = 0; i < this.selected_list.length; i++) {
