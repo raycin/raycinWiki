@@ -44,7 +44,9 @@ public class SimpleController {
             return new ModelAndView("index").addObject("err", "未知错误");
         else {
             map.put(project, parser);
-            return new ModelAndView("jsmind").addObject("data", parser.getContent().toJson());
+            String attributeValue = parser.getContent().toJson();
+//            System.out.println(attributeValue);
+            return new ModelAndView("jsmind").addObject("data", attributeValue);
         }
     }
 
