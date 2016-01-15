@@ -5,8 +5,11 @@
 %>
 <html>
 <head>
-    <title>jstest</title>
+    <title>线路选择</title>
+    <link type="text/css" rel="stylesheet" href="<%=basePath%>/style/pnotify.core.css" />
     <link type="text/css" rel="stylesheet" href="<%=basePath%>/style/jsmind.css" />
+    <script type="text/javascript" src="<%=basePath%>/script/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/pnotify.core.js"></script>
     <script type="text/javascript" src="<%=basePath%>/script/jsmind.js"></script>
     <link type="text/css" rel="stylesheet" href="<%=basePath%>/style/bootstrap.min.css"/>
 </head>

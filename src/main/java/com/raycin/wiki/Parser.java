@@ -122,6 +122,8 @@ public class Parser {
         String[] processArray = objects.split("===");
 
         WikiEntry wikiEntry = new WikiEntry(project);
+
+        int num = 1;
         for (String process : processArray) {
             WikiEntry parent = wikiEntry;
             WikiEntry[] entries = getLeafEntries(process);
@@ -130,10 +132,11 @@ public class Parser {
                 if (entry == null)
                     continue;
                 WikiEntry e = new WikiEntry(treeLevel.get(i) + ":" + entry.getId());
+                e.setId((num*1000+i)+"");
                 parent.addChild(e);
                 parent = e;
             }
-
+            num++;
         }
         return wikiEntry.toJson();
     }

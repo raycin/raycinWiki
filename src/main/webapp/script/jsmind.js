@@ -1956,10 +1956,12 @@
         },
 
         add_event:function(obj,event_name,event_handle){
-            jm.util.dom.add_event(this.e_nodes,event_name,function(e){
-                var evt = e || event;
-                event_handle.call(obj,evt);
-            });
+            if(!obj.options.not_event) {
+                jm.util.dom.add_event(this.e_nodes,event_name,function(e){
+                    var evt = e || event;
+                    event_handle.call(obj,evt);
+                });
+            }
         },
 
         get_nodeid:function(element){
@@ -2115,8 +2117,6 @@
                 node._data.view.element.className.replace(/\s*selected\s*/i,'');
             } else {
                 if(this.check_level(node)) {
-                    alert("you can't select this node!");
-                } else {
                     this.selected_node = node;
                     node._data.view.element.className += ' selected';
                     this.selected_list.push(node);
@@ -2126,24 +2126,37 @@
 
         check_level:function(node) {
             if(node != null && node.isroot) {
-                return true;
+                this.alert_error("无法选择一级节点！");
+                return false;
             }
             if(node != null && node.parent != null && node.parent.isroot) {
-                return true;
+                this.alert_error("无法选择二级节点！");
+                return false;
             }
 
             if(node != null && node.parent.parent != null && node.parent.parent.isroot) {
-                return true;
+                this.alert_error("无法选择三级节点！");
+                return false;
             }
 
             var parentId = node.parent.id;
             for(var i = 0; i < this.selected_list.length; i++) {
                 if(this.selected_list[i].parent.id == parentId) {
-                    return true;
+                    this.alert_error("该级节点只能选择一个！");
+                    return false;
                 }
             }
 
-            return false;
+            return true;
+        },
+
+        alert_error:function(text) {
+            new PNotify({
+                title: '提示',
+                text: text,
+                type: 'error',
+                delay:700
+            });
         },
 
         contain_node:function(node) {
@@ -2183,6 +2196,9 @@
 
         from_submit:function() {
             if(this.save_list.length != 0) {
+                if(this.selected_list.length > 0) {
+                    this.save_list.push(this.selected_list);
+                }
                 var all_line = "";
                 for(var i = 0; i < this.save_list.length; i++) {
                     if(i != 0) {
