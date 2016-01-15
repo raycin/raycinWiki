@@ -1,10 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <html>
 <head>
     <title>jstest</title>
-    <link type="text/css" rel="stylesheet" href="../style/jsmind.css" />
-    <script type="text/javascript" src="../script/jsmind.js"></script>
-    <link type="text/css" rel="stylesheet" href="../style/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="<%=basePath%>/style/jsmind.css" />
+    <script type="text/javascript" src="<%=basePath%>/script/jsmind.js"></script>
+    <link type="text/css" rel="stylesheet" href="<%=basePath%>/style/bootstrap.min.css"/>
 </head>
 <body>
 <form action="/doShow" method="post" class="well" id="lineform">

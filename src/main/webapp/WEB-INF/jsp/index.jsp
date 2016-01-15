@@ -1,11 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <html>
 <head>
     <title>wiki登陆</title>
-    <link type="text/css" rel="stylesheet" href="../style/bootstrap.min.css"/>
-    <script type="text/javascript" src="../script/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="../script/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="<%=basePath%>/style/bootstrap.min.css"/>
+    <script type="text/javascript" src="<%=basePath%>/script/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container" style="margin-top:100px">
