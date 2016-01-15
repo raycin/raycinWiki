@@ -63,6 +63,7 @@ public class SimpleController {
     private Parser getWikiContent(String project, Wiki wiki) {
         try {
             String text = wiki.getPageText(project);
+//            System.out.println(text);
             Parser parser = new Parser(project, text);
             return parser;
         } catch (IOException e) {

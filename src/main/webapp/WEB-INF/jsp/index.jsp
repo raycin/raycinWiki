@@ -3,6 +3,7 @@
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String project = (String)request.getAttribute("project");
 %>
 <html>
 <head>
@@ -15,9 +16,9 @@
 <div class="container" style="margin-top:100px">
     <form action="/doLogin" method="post" class="well" style="width:220px;margin:0px auto;">
         <label></label>
-        <input type="hidden" id="project" name="project" value="${project}">
+        <input type="hidden" id="project" name="project" value="<%=project%>">
         <%--2016年跨学科系统集成设计挑战--%>
-        <h3>${project}</h3>
+        <h3><%=project%></h3>
         <%--<%--%>
             <%--String code = (String)request.getAttribute("code");--%>
             <%--if (code != null && "10001".equals(code)) {--%>
